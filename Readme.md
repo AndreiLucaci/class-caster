@@ -1,5 +1,5 @@
 ﻿# ClassCaster - intent
-Used to gracefully cast an interface to a concrete type - ** A.K.A. downcasting **
+Used to gracefully cast an interface to a concrete type - **A.K.A. downcasting**
 
 ## Original issue
 This is due to the SonarQube issue S3215
