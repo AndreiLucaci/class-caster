@@ -44,7 +44,7 @@ namespace Caster.TestScenario
             IInterface concreteToInterface = concrete;
 
             // act
-            var result = concreteToInterface.Cast<DifferentConcrete>(throwException: true);
+            var result = concreteToInterface.Cast<DifferentConcrete>();
 
             // assert
             Assert.IsNull(result);

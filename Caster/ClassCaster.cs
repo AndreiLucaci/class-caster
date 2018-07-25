@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Caster
 {
@@ -9,7 +10,7 @@ namespace Caster
         {
             if (obj != null && obj.GetType() == typeof(T))
             {
-                return (T)Convert.ChangeType(obj, typeof(T));
+                return (T)Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
             }
 
             return default(T);
@@ -22,7 +23,7 @@ namespace Caster
             {
                 if (obj.GetType() == typeof(T))
                 {
-                    return (T) Convert.ChangeType(obj, typeof(T));
+                    return (T) Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
                 }
 
                 if (throwException)

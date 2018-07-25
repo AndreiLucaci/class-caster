@@ -36,7 +36,7 @@ public static class ClassCaster
     {
         if (obj != null && obj.GetType() == typeof(T))
         {
-            return (T)Convert.ChangeType(obj, typeof(T));
+            return (T)Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
         }
 
         return default(T);
@@ -49,7 +49,7 @@ public static class ClassCaster
         {
             if (obj.GetType() == typeof(T))
             {
-                return (T) Convert.ChangeType(obj, typeof(T));
+                return (T) Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
             }
 
             if (throwException)
@@ -117,7 +117,7 @@ public void ClassCaster_WrongType_ReturnsNull()
     IInterface concreteToInterface = concrete;
 
     // act
-    var result = concreteToInterface.Cast<DifferentConcrete>(throwException: true);
+    var result = concreteToInterface.Cast<DifferentConcrete>();
 
     // assert
     Assert.IsNull(result);
