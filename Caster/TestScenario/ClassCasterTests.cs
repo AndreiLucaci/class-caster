@@ -23,7 +23,7 @@ namespace Caster.TestScenario
         }
 
         [Test]
-        public void ClassCaster_WrongType_CastBreaks()
+        public void ClassCaster_WrongTypeThrowExceptionTrue_ThrowsInvalidCastException()
         {
             // arrange
             var concrete = new Concrete();
@@ -32,8 +32,22 @@ namespace Caster.TestScenario
             // act
             Assert.Throws<InvalidCastException>(() =>
             {
-                var result = concreteToInterface.Cast<DifferentConcrete>();
+                var result = concreteToInterface.Cast<DifferentConcrete>(true);
             });
+        }
+
+        [Test]
+        public void ClassCaster_WrongType_ReturnsNull()
+        {
+            // arrange
+            var concrete = new Concrete();
+            IInterface concreteToInterface = concrete;
+
+            // act
+            var result = concreteToInterface.Cast<DifferentConcrete>(throwException: true);
+
+            // assert
+            Assert.IsNull(result);
         }
     }
 }
