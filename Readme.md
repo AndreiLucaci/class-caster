@@ -32,8 +32,33 @@ A simple extension method on the generic object
 public static class ClassCaster
 {
     public static T Cast<T>(this object obj)
+        where T : class
     {
-        return (T) Convert.ChangeType(obj, typeof(T));
+        if (obj != null && obj.GetType() == typeof(T))
+        {
+            return (T)Convert.ChangeType(obj, typeof(T));
+        }
+
+        return default(T);
+    }
+
+    public static T Cast<T>(this object obj, bool throwException)
+        where T : class
+    {
+        if (obj != null)
+        {
+            if (obj.GetType() == typeof(T))
+            {
+                return (T) Convert.ChangeType(obj, typeof(T));
+            }
+
+            if (throwException)
+            {
+                throw new InvalidCastException($"{obj.GetType()} cannot be converted to type {typeof(T)}.");
+            }
+        }
+
+        return default(T);
     }
 }
 ```
@@ -64,10 +89,10 @@ public void ClassCaster_DirectObject_CastsCorrectly()
 }
 ```
 
-### 2. Not Ok
+### 2. Not Ok - throws exception
 ```cs
 [Test]
-public void ClassCaster_WrongType_CastBreaks()
+public void ClassCaster_WrongTypeThrowExceptionTrue_ThrowsInvalidCastException()
 {
     // arrange
     var concrete = new Concrete();
@@ -76,7 +101,25 @@ public void ClassCaster_WrongType_CastBreaks()
     // act
     Assert.Throws<InvalidCastException>(() =>
     {
-        var result = concreteToInterface.Cast<DifferentConcrete>();
+        var result = concreteToInterface.Cast<DifferentConcrete>(true);
     });
+}
+```
+
+### 3. Not Ok - returns null
+
+```cs
+[Test]
+public void ClassCaster_WrongType_ReturnsNull()
+{
+    // arrange
+    var concrete = new Concrete();
+    IInterface concreteToInterface = concrete;
+
+    // act
+    var result = concreteToInterface.Cast<DifferentConcrete>(throwException: true);
+
+    // assert
+    Assert.IsNull(result);
 }
 ```
