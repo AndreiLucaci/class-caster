@@ -29,45 +29,14 @@ public static class DowncastExampleProgram
 A simple extension method on the generic object
 
 ```cs
-public static class ClassCaster
-{
-    public static T Cast<T>(this object obj)
-        where T : class
-    {
-        if (obj != null && obj.GetType() == typeof(T))
-        {
-            return (T)Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
-        }
-
-        return default(T);
-    }
-
-    public static T Cast<T>(this object obj, bool throwException)
-        where T : class
-    {
-        if (obj != null)
-        {
-            if (obj.GetType() == typeof(T))
-            {
-                return (T) Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
-            }
-
-            if (throwException)
-            {
-                throw new InvalidCastException($"{obj.GetType()} cannot be converted to type {typeof(T)}.");
-            }
-        }
-
-        return default(T);
-    }
-}
+public static T Cast<T>(this object obj);
 ```
 
 ## Throwables:
 ```cs
 InvalidCastException
 ```
-Is thrown if the cast is unsuccesfull.
+Is thrown if throwException is supplied and is true and the cast is unsuccesfull.
 
 ## Examples - TestScenario\ClassCasterTests
 
