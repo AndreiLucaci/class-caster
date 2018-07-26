@@ -8,12 +8,7 @@ namespace Caster
         public static T Cast<T>(this object obj)
             where T : class
         {
-            if (obj != null && obj.GetType() == typeof(T))
-            {
-                return (T)Convert.ChangeType(obj, typeof(T), CultureInfo.InvariantCulture);
-            }
-
-            return default(T);
+            return obj.Cast<T>(false);
         }
 
         public static T Cast<T>(this object obj, bool throwException)
